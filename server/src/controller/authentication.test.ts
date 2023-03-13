@@ -11,6 +11,7 @@ describe("test authentication", () => {
   let accessToken: string;
 
   beforeAll(async (): Promise<void> => {
+    
     await mongoose.connect(process.env.MONGO_URI!);
   });
   afterAll(async (): Promise<void> => {
@@ -20,7 +21,7 @@ describe("test authentication", () => {
   describe("/POST refreshToken and accessToken", (): void => {
     test("it should return accessToken and refreshToken", async (): Promise<void> => {
       const res = await request(app)
-        .post("/token")
+        .post("/v1/token")
         .send({ name: "test" })
         .expect(200);
       expect(res.body.refreshToken).toBeDefined();
@@ -35,7 +36,7 @@ describe("test authentication", () => {
       const user = await User.findOne({ refreshToken }, { _id: 1 });
       accessToken = generateAccessToken(user?.id);
       const res = await request(app)
-        .post("/token/renew")
+        .post("/v1/token/renew")
         .send({ refreshToken })
         .expect(200);
       expect(res.body.accessToken).toBeDefined();

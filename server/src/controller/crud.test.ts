@@ -26,6 +26,7 @@ let token: string;
 
 describe("test CRUD in book-store", () => {
   beforeAll(async () => {
+
     await mongoose.connect(process.env.MONGO_URI!);
     const user = await User.findOne({ name: "test" });
     token = generateAccessToken(user?.id);
@@ -40,7 +41,7 @@ describe("test CRUD in book-store", () => {
   describe("check CRUD in mongoDB in books-store application", () => {
     test("/POST ,it should return 401 if header doesn't have authorization", async () => {
       const res = await request(app)
-        .post("/books")
+        .post("/v1/books")
         .send(correctDetailsOfBooks)
         .expect(401);
 
@@ -54,7 +55,7 @@ describe("test CRUD in book-store", () => {
 
     test("/POST, it should be return 401 if token is invalid", async () => {
       const res = await request(app)
-        .post("/books")
+        .post("/v1/books")
         .send(correctDetailsOfBooks)
         .set({ Authorization: "Bearer invalidToken" })
         .expect(401);
@@ -69,7 +70,7 @@ describe("test CRUD in book-store", () => {
 
     test("/POST, it should be return 201 if client send correct data and valid token", async () => {
       const res = await request(app)
-        .post("/books")
+        .post("/v1/books")
         .send(correctDetailsOfBooks)
         .set({ Authorization: `Bearer ${token}` })
         .expect(201);
@@ -79,7 +80,7 @@ describe("test CRUD in book-store", () => {
 
     test("/GET, it should return all books from db as json inside an array.", async () => {
       const res = await request(app)
-        .get("/books")
+        .get("/v1/books")
         .set({ Authorization: `Bearer ${token}` })
         .expect(200);
       expect(res.body).toBeDefined();
@@ -89,7 +90,7 @@ describe("test CRUD in book-store", () => {
       const book = await Books.findOne({ title: "test" });
       const id = book?.id;
       const res = await request(app)
-        .put(`/books/${id}`)
+        .put(`/v1/books/${id}`)
         .send(updateDetailsOfBook)
         .set({ Authorization: `Bearer ${token}` })
         .expect(201);
@@ -100,7 +101,7 @@ describe("test CRUD in book-store", () => {
       const book = await Books.findOne({ title: "updateTest" });
       const id = book?.id;
       const res = await request(app)
-        .del(`/books/${id}`)
+        .del(`/v1/books/${id}`)
         .set({ Authorization: `Bearer ${token}` })
         .expect(200);
       expect(res.body).toBeDefined();
@@ -109,7 +110,7 @@ describe("test CRUD in book-store", () => {
     //this test has same result for all other routes. :)
     test("/DELETE, if client send invalid id, it returns 404 as response", async () => {
       const res = await request(app)
-        .del(`/books/wrongId`)
+        .del(`/v1/books/wrongId`)
         .set({ Authorization: `Bearer ${token}` })
         .expect(404);
 
