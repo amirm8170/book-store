@@ -8,6 +8,8 @@
 
 -start with pm2(cluster) : npm run deploy-cluster
 
+-test: npm run test
+
 1- generate token (POST /token): client should has token to have access to all routes of application. I've used JWT for generate accessToken and refreshToken. for generate tokens you should send your name in body and this api can store name and refreshToken in mongoDB and returns refreshToken and accessToken as response.I've created authentication helper file to handle jwt. it can generate tokens and verify tokens as well.
 
 2- renew accessToken (POST /token/renew):if client's accessToken expired, he can send his refreshToken and if the token was valid, it can generate new accessToken to have access to routes.
