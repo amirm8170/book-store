@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const generate_token_controller_1 = require("../controller/generate-token.controller");
+const update_book_controller_1 = require("./../controller/update-book.controller");
+const get_book_byId_controller_1 = require("./../controller/get-book-byId.controller");
+const get_allBooks_controller_1 = require("./../controller/get-allBooks.controller");
+const create_book_controller_1 = require("../controller/create-book.controller");
+const express_1 = require("express");
+const delete_book_controller_1 = require("../controller/delete-book.controller");
+exports.router = (0, express_1.Router)();
+exports.router.post("/", create_book_controller_1.createBook);
+exports.router.get("/", get_allBooks_controller_1.getAllBooks);
+exports.router.get("/:id", get_book_byId_controller_1.getBookById);
+exports.router.put("/:id", update_book_controller_1.updateBook);
+exports.router.delete("/:id", delete_book_controller_1.deleteBook);
+exports.router.post("/token", generate_token_controller_1.generateToken);
