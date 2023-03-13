@@ -1,10 +1,12 @@
 #book-store application
 
-install dependencies: npm install
-start : npm run deploy
-start with pm2(cluster) : npm run deploy-cluster
+-I've build an book-store application with some apis:
 
-I've build an book-store application with some apis:
+-install dependencies: npm install
+
+-start : npm run deploy
+
+-start with pm2(cluster) : npm run deploy-cluster
 
 1- generate token (POST /token): client should has token to have access to all routes of application. I've used JWT for generate accessToken and refreshToken. for generate tokens you should send your name in body and this api can store name and refreshToken in mongoDB and returns refreshToken and accessToken as response.I've created authentication helper file to handle jwt. it can generate tokens and verify tokens as well.
 
